@@ -23,43 +23,42 @@ Discord-Handler-Java/
 ├── LICENSE
 ├── README.md
 └── src/
-    └── discordhandler/
-        ├── Main.java                 # Entry point
-        ├── Config.java               # Bot configuration
-        ├── Bot.java                  # Bot class (wraps JDA)
-        ├── core/                     # Core utilities and webhooks
-        │   ├── Emojis.java
-        │   ├── CooldownManager.java
-        │   ├── CommandUtils.java
-        │   ├── WebhookSender.java    # Webhook base sender
-        │   ├── ErrorWebhook.java
-        │   ├── JoinGuildWebhook.java
-        │   ├── LeaveGuildWebhook.java
-        │   ├── PrefixCommandWebhook.java
-        │   ├── ReadyWebhook.java
-        │   └── SlashCommandWebhook.java
-        ├── database/
-        │   └── Mongo.java            # MongoDB connection
-        ├── events/                   # Discord event listeners
-        │   ├── ReadyHandler.java
-        │   ├── InteractionCreateHandler.java
-        │   ├── MessageCreateHandler.java
-        │   ├── GuildCreateHandler.java
-        │   └── GuildDeleteHandler.java
-        ├── handlers/                 # Loaders and registrars
-        │   ├── AntiCrash.java
-        │   ├── CommandHandler.java
-        │   ├── EventHandler.java
-        │   ├── Logger.java
-        │   └── PrefixHandler.java
-        ├── models/                   # Data models
-        │   ├── StartupData.java
-        │   ├── SlashCommand.java
-        │   ├── PrefixCommand.java
-        │   └── User.java
-        └── commands/
-            ├── slash/public/PingCommand.java
-            └── prefix/public/PingCommand.java
+    ├── Main.java                 # Entry point
+    ├── Config.java               # Bot configuration
+    ├── Bot.java                  # Bot class (wraps JDA)
+    ├── core/                     # Core utilities and webhooks
+    │   ├── Emojis.java
+    │   ├── CooldownManager.java
+    │   ├── CommandUtils.java
+    │   ├── WebhookSender.java    # Webhook base sender
+    │   ├── ErrorWebhook.java
+    │   ├── JoinGuildWebhook.java
+    │   ├── LeaveGuildWebhook.java
+    │   ├── PrefixCommandWebhook.java
+    │   ├── ReadyWebhook.java
+    │   └── SlashCommandWebhook.java
+    ├── database/
+    │   └── Mongo.java            # MongoDB connection
+    ├── events/                   # Discord event listeners
+    │   ├── ReadyHandler.java
+    │   ├── InteractionCreateHandler.java
+    │   ├── MessageCreateHandler.java
+    │   ├── GuildCreateHandler.java
+    │   └── GuildDeleteHandler.java
+    ├── handlers/                 # Loaders and registrars
+    │   ├── AntiCrash.java
+    │   ├── CommandHandler.java
+    │   ├── EventHandler.java
+    │   ├── Logger.java
+    │   └── PrefixHandler.java
+    ├── models/                   # Data models
+    │   ├── StartupData.java
+    │   ├── SlashCommand.java
+    │   ├── PrefixCommand.java
+    │   └── User.java
+    └── commands/
+        ├── slash/public/PingCommand.java
+        └── prefix/public/PrefixPingCommand.java
 ```
 
 ## Installation
@@ -114,12 +113,9 @@ Discord-Handler-Java/
 
 ### Creating Slash Commands
 
-Create a new file in `src/main/java/discordhandler/commands/slash/[category]/[Name].java`:
+Create a new file in `src/commands/slash/[category]/[Name].java`:
 
 ```java
-package discordhandler.commands.slash.[category];
-
-import discordhandler.models.SlashCommand;
 import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
 
 public class [Name] {
@@ -138,12 +134,9 @@ public class [Name] {
 
 ### Creating Prefix Commands
 
-Create a new file in `src/main/java/discordhandler/commands/prefix/[category]/[Name].java`:
+Create a new file in `src/commands/prefix/[category]/[Name].java`:
 
 ```java
-package discordhandler.commands.prefix.[category];
-
-import discordhandler.models.PrefixCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.List;
 
