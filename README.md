@@ -127,4 +127,4 @@ public class PrefixPingCommand {
 
 ---
 
-**Discord Handler** - A modern, scalable Discord bot framework built with Java.
+**Discord Handler** — Built by **Mtrx** — Discord: **0hu2**
