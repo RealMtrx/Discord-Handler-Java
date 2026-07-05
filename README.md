@@ -1,67 +1,52 @@
-# Discord Handler (Java)
+# Discord Handler Java
 
-A modern, feature-rich Discord bot handler built with **Java** and **JDA v5**, featuring both slash commands and prefix commands with a robust modular architecture designed for scalability and maintainability.
+A modern, feature-rich Discord bot handler built with **JDA v5**, featuring both slash commands and prefix commands with a robust modular architecture designed for scalability and maintainability.
 
-## Features
+## 🚀 Features
 
-- **Dual Command System**: Support for both slash commands (`/ping`) and prefix commands (`$ping`)
+- **Dual Command System**: Support for both slash commands and prefix commands
 - **Modular Architecture**: Clean separation of concerns with dedicated handlers
 - **Anti-Crash System**: Comprehensive error handling and monitoring
-- **Event-Driven**: Fully event-driven architecture via `ListenerAdapter`
-- **Webhook Logging**: Real-time logging for errors, commands, guild events, and bot status
-- **MongoDB Integration**: Persistent data storage with MongoDB Driver
+- **Event-Driven**: Fully event-driven architecture
+- **Webhook Logging**: Real-time logging for errors and guild events
+- **MongoDB Integration**: Persistent data storage with MongoDB Java driver
 - **Cooldown System**: Per-command cooldown management
-- **Environment Configuration**: Secure configuration management with dotenv-java
+- **Environment Configuration**: Secure configuration with dotenv-java
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 Discord-Handler-Java/
-├── pom.xml                       # Maven project file
-├── .env.example                  # Environment configuration template
-├── .gitignore
-├── LICENSE
-├── README.md
-└── src/
-    ├── Main.java                 # Entry point
-    ├── Config.java               # Bot configuration
-    ├── Bot.java                  # Bot class (wraps JDA)
-    ├── core/                     # Core utilities and webhooks
-    │   ├── Emojis.java
-    │   ├── CooldownManager.java
-    │   ├── CommandUtils.java
-    │   ├── WebhookSender.java    # Webhook base sender
-    │   ├── ErrorWebhook.java
-    │   ├── JoinGuildWebhook.java
-    │   ├── LeaveGuildWebhook.java
-    │   ├── PrefixCommandWebhook.java
-    │   ├── ReadyWebhook.java
-    │   └── SlashCommandWebhook.java
-    ├── database/
-    │   └── Mongo.java            # MongoDB connection
-    ├── events/                   # Discord event listeners
-    │   ├── ReadyHandler.java
-    │   ├── InteractionCreateHandler.java
-    │   ├── MessageCreateHandler.java
-    │   ├── GuildCreateHandler.java
-    │   └── GuildDeleteHandler.java
-    ├── handlers/                 # Loaders and registrars
-    │   ├── AntiCrash.java
-    │   ├── CommandHandler.java
-    │   ├── EventHandler.java
-    │   ├── Logger.java
-    │   └── PrefixHandler.java
-    ├── models/                   # Data models
-    │   ├── StartupData.java
-    │   ├── SlashCommand.java
-    │   ├── PrefixCommand.java
-    │   └── User.java
-    └── commands/
-        ├── slash/public/PingCommand.java
-        └── prefix/public/PrefixPingCommand.java
+├── pom.xml                       # Maven project configuration
+├── src/                          # Source code (no package declarations)
+│   ├── Main.java                 # Main bot entry point
+│   ├── Config.java               # Bot configuration from .env
+│   ├── Bot.java                  # Bot initialization
+│   ├── Core/                     # Core utilities
+│   │   ├── CommandUtils.java     # Cooldown and utilities
+│   │   ├── Emojis.java           # Centralized emoji definitions
+│   │   └── WebhookUtil.java      # Webhook utility
+│   ├── Database/
+│   │   └── Mongo.java            # MongoDB connection setup
+│   ├── Events/                   # Discord event handlers
+│   │   ├── GuildCreate.java      # Handler when bot joins a server
+│   │   ├── GuildDelete.java      # Handler when bot leaves a server
+│   │   ├── InteractionCreate.java# Handles slash command interactions
+│   │   ├── MessageCreate.java    # Handles prefix commands
+│   │   └── Ready.java            # Bot ready event
+│   ├── Handlers/                 # Handlers for modularity
+│   │   ├── AntiCrash.java        # Crash prevention and error handling
+│   │   └── Logger.java           # Logger for bot activity
+│   ├── Models/
+│   │   └── UserModel.java        # User data model
+│   └── Commands/
+│       ├── Prefix/               # Prefix commands
+│       │   └── PingCommand.java  # Example prefix ping command
+│       └── Slash/                # Slash commands
+│           └── PingCommand.java  # Example slash ping command
 ```
 
-## Installation
+## 🔧 Installation
 
 1. **Clone the repository**
 
@@ -70,10 +55,10 @@ Discord-Handler-Java/
    cd Discord-Handler-Java
    ```
 
-2. **Build with Maven**
+2. **Build dependencies**
 
    ```bash
-   mvn clean package
+   mvn clean compile
    ```
 
 3. **Environment Setup**
@@ -81,76 +66,61 @@ Discord-Handler-Java/
    Copy `.env.example` to `.env` and fill in your values:
 
    ```env
-   TOKEN=your_bot_token
-   CLIENT_ID=your_client_id
+   TOKEN=your_bot_token_here
+   PREFIX=!
    BOT_NAME=Discord Handler
-   PREFIX=$
-   OWNER_IDS=owner_id_1,owner_id_2
-   MONGODB_URI=your_mongo_uri
-   ERROR_WEBHOOK=#
-   SLASH_WEBHOOK=#
-   PREFIX_WEBHOOK=#
-   JOIN_WEBHOOK=#
-   LEAVE_WEBHOOK=#
-   READY_WEBHOOK=#
+   MONGO_URI=mongodb://localhost:27017/discord-handler
+   ERROR_WEBHOOK=https://discord.com/api/webhooks/your_webhook
+   GUILD_LOG_WEBHOOK=https://discord.com/api/webhooks/your_webhook
    ```
 
 4. **Run the bot**
 
    ```bash
+   mvn exec:java -Dexec.mainClass="Main"
+   # or package and run
+   mvn clean package
    java -jar target/discord-handler-1.0.0.jar
    ```
 
-## Requirements
+## 📋 Dependencies
 
-- **Java**: 21+
-- **JDA**: 5.2.0 — Discord API wrapper
-- **MongoDB Driver**: 5.2.0 — MongoDB driver
-- **dotenv-java**: 3.1.0 — Environment variable management
-- **Gson**: 2.11.0 — JSON serialization for webhooks
+- **JDA**: v5.0 - Discord API wrapper
+- **mongodb-driver-sync**: v4.11 - MongoDB driver
+- **dotenv-java**: v3.0 - Environment variable management
+- **json**: v20231013 - JSON parsing for webhooks
 
-## Command Development
+## 📝 Command Development
 
 ### Creating Slash Commands
 
-Create a new file in `src/commands/slash/[category]/[Name].java`:
+Create a new file in `src/Commands/Slash/[name]Command.java`:
 
 ```java
-import net.dv8tion.jda.api.interactions.commands.SlashCommandInteraction;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class [Name] {
-    public static SlashCommand getCommand() {
-        return new SlashCommand(
-                "commandname",
-                "Command description",
-                "[category]",
-                (SlashCommandInteraction event) -> {
-                    event.reply("Response").queue();
-                }
-        );
+public class PingCommand {
+    public static String name = "ping";
+    public static String description = "Replies with Pong!";
+
+    public static void execute(SlashCommandInteractionEvent event) {
+        event.reply("Pong! 🏓").queue();
     }
 }
 ```
 
 ### Creating Prefix Commands
 
-Create a new file in `src/commands/prefix/[category]/[Name].java`:
+Create a new file in `src/Commands/Prefix/[name]Command.java`:
 
 ```java
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import java.util.List;
 
-public class [Name] {
-    public static PrefixCommand getCommand() {
-        return new PrefixCommand(
-                "commandname",
-                "Command description",
-                "[category]",
-                List.of("alias1"),
-                (MessageReceivedEvent event, String[] args) -> {
-                    event.getChannel().sendMessage("Response").queue();
-                }
-        );
+public class PrefixPingCommand {
+    public static String name = "ping";
+
+    public static void execute(MessageReceivedEvent event, String[] args) {
+        event.getChannel().sendMessage("Pong! 🏓").queue();
     }
 }
 ```
